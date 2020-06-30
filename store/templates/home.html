@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> Products</h1>
+<div class="container">
+  <form action="{% url 'add' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-sm btn-success float-right">Add Items</button>
+  </form>
+  <form action="{% url 'bill' %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-sm btn-primary float-right">Bill generating</button>
+  </form>
+</div>
+{% comment %} <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Price</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Available</th>
+      <th scope="col">Category</th>
+
+    </tr>
+  </thead>
+    <tbody>
+
+            {% for object in object_list %}
+                <tr scope='row'>
+                        <td>{{ forloop.counter }}</td>  <!--- {{forloop.counter}} gives auto numbers in DTL --->
+                        <td>{{object.name}}</td>
+                        <td>{{object.price}}</td>
+                        <td>{{object.quantityofproduct}}</td>
+                        <td>{{object.quantityAvailable}}</td>
+                        <td>{{object.get_category_display}}</td>
+                        <td>
+                            <form action="{% url 'update' object.id %}" method="post">
+                              {% csrf_token %}
+                              <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+                            </form>
+                            <form action="{% url 'delete' object.id %}" method="post">
+                              {% csrf_token %}
+                              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                          </td>
+
+                    </tr>
+            {% endfor %}
+    </tbody>
+</table> {% endcomment %}
+<div class="container">
+<div class="row">
+
+  {% for object in object_list %}
+
+      <div class="card" style="width: 18rem;">
+        <img src="https://3.bp.blogspot.com/-GaPiWoVGJiA/WocqLeFua-I/AAAAAAAAEzo/d6hvVkSMdTc2UoKGhqvdXbxfS06MigFxQCLcBGAs/s1600/Op7ion_Non_Copyright_Music.jpg" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{object.name}}</h5>
+          <p class="card-text">{{object.get_category_display}}</p>
+        </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Price : {{object.price}}</li>
+            <li class="list-group-item">Quantity : {{object.quantityofproduct}}</li>
+            <li class="list-group-item">Available : {{object.quantityAvailable}}</li>
+          </ul>
+        <div class="card-body">
+        <div class="row">
+          <form action="{% url 'update' object.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-primary">Edit</button>
+          </form>
+          <form action="{% url 'delete' object.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+          </form>
+          <form action="{% url 'add_to_cart' object.id %}" method="post" class="float-right">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-warning">Add To cart</button>
+          </form>
+        </div>
+        </div>
+      </div>
+
+            {% endfor %}
+
+</div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Bill Of Purchase</h1>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Item</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Cost</th>
+    </tr>
+  </thead>
+  
+
+
+        {% comment %} <h5>{{obj.item}}</h5> X  <h5>{{obj.quantity}}</h5> = ${{obj.get_total_item_price}} {% endcomment %}
+    <tbody>
+    
+    {% for obj in item %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{obj.item}}</td>
+      <td>{{obj.quantity}}</td>
+      <td>${{obj.get_total_item_price}}</td>
+    </tr>
+    
+    {% endfor %}
+    <tr>       
+    <td>total</td>
+    <td>${{total}}</td>
+    
+    </tr>
+    </tbody>
+
+
+
+{% endblock %}
