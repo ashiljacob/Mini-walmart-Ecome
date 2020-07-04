@@ -49,6 +49,9 @@
             {% endfor %}
     </tbody>
 </table> {% endcomment %}
+
+
+
 <div class="container">
 <div class="row">
 
@@ -61,7 +64,7 @@
           <p class="card-text">{{object.get_category_display}}</p>
         </div>
           <ul class="list-group list-group-flush">
-            <li class="list-group-item">Price : {{object.price}}</li>
+            <li class="list-group-item">Price : ${{object.price}}</li>
             <li class="list-group-item">Quantity : {{object.quantityofproduct}}</li>
             <li class="list-group-item">Available : {{object.quantityAvailable}}</li>
           </ul>

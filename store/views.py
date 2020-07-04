@@ -4,7 +4,8 @@ from django.views.generic.edit import UpdateView
 from .models import Item,BillItem
 from datetime import datetime
 from django.http import HttpResponse
-from django.db.models import Sum
+from django.db.models import Sum,F,FloatField
+
 
 # Create your views here.
 class HomePageView(ListView):
@@ -63,12 +64,12 @@ def bill_page(request):
     
     item= BillItem.objects.all() 
     # Getting Total of Order########
-    total1 = 0
-    for i in item:
-        total1 += i.price * i.quantity
-    #total = BillItem.objects.aggregate(p=Sum('price'))
+    # total = 0
+    # for i in item:
+    #     total += i.price * i.quantity
+    total = BillItem.objects.aggregate(p=Sum(F('price') * F('quantity'),output_field= FloatField()))
     
-    return render(request,'bill.html',{'item':item,'total':total1})
+    return render(request,'bill.html',{'item':item,'total':total['p']})
 
 def add_to_cart(request,id):
     if request.method == "POST":
@@ -81,9 +82,16 @@ def add_to_cart(request,id):
             obj = BillItem.objects.get(item=i.name)
             obj.quantity +=1
             obj.save()
+            
+           
         else:
             BillItem.objects.create(item=i.name,quantity=1,price=i.price)
 
         return redirect("/")
     else:
         return HttpResponse("<h1>Error While Adding to Cart</h1>")
+    
+def delete_bill_item(request,id):
+    item = BillItem.objects.get(id=id)
+    item.delete()
+    return redirect('bill')
