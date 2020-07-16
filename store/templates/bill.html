@@ -25,7 +25,7 @@
           <th scope="row">{{ forloop.counter }}</th>
           <td>{{obj.item}}</td>
           <td>{{obj.quantity}}</td>
-          <td>${{obj.get_total_item_price}}</td>
+          <td>${{obj.get_total_item_price | floatformat:2}}</td>
           <td>
               <form action="{% url 'delete_bill' obj.id %}" method="post">
                   {% csrf_token %}

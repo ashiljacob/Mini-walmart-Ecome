@@ -32,10 +32,6 @@ def save_item(request,id):
     if request.method == "POST":
 
         i = Item.objects.get(pk=id)
-
-        
-
-        
         i.name=request.POST['title']
         i.price=float(request.POST['price'])
         i.quantityofproduct=request.POST['quantityofproduct']
